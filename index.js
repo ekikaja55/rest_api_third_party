@@ -8,8 +8,8 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 
 //nomor 2
 app.get("/api/card", async (req, res) => {
+  const { name } = req.query;
   try {
-    const { name } = req.query;
     const dataMentah = await axios.get(
       `https://db.ygoprodeck.com/api/v7/cardinfo.php?name=${name}`
     );
@@ -21,7 +21,7 @@ app.get("/api/card", async (req, res) => {
       description: data.desc,
       image_url: data.card_images[0].image_url,
     };
-    return res.send(result);
+    return res.status(200).json(result);
   } catch (error) {
     return res.status(404).json({ message: "Card Tidak Ditemukan" });
   }
@@ -29,9 +29,8 @@ app.get("/api/card", async (req, res) => {
 
 //nomor 1
 app.get("/api/:index", async (req, res) => {
+  const { index } = req.params;
   try {
-    const { index } = req.params;
-
     if (Number.isNaN(index)) {
       return res.status(404).json({ message: "Inputan Harus Angka" });
     }
@@ -52,8 +51,31 @@ app.get("/api/:index", async (req, res) => {
       description: data.desc,
       image_url: data.card_images[0].image_url,
     };
-    return res.send(result);
+    return res.status(200).json(result);
   } catch (error) {
     return res.status(500).json(error.message);
+  }
+});
+
+//nomor 3
+app.get("/api/harga/:id", async (req, res) => {
+  const { id } = req.params;
+  try {
+    const dataMentah = await axios.get(
+      `https://db.ygoprodeck.com/api/v7/cardinfo.php?id=${id}`
+    );
+    const harga = `${dataMentah.data.data[0].card_prices[0].cardmarket_price} Euro, pada platform TCGPlayer Sebesar ${dataMentah.data.data[0].card_prices[0].tcgplayer_price} Euro, dan pada platform Amazon sebesar ${dataMentah.data.data[0].card_prices[0].amazon_price} Euro`;
+
+    const deskripsi = dataMentah.data.data.map((item) => {
+      return `Kartu ${item.name} dengan ID ${item.id} dijual pada CardMarket sebesar ${harga}`;
+    });
+
+    return res.status(200).json({
+      message: deskripsi[0],
+    });
+  } catch (error) {
+    return res
+      .status(404)
+      .json({ message: `Kartu Dengan ID ${id} Tidak Ditemukan` });
   }
 });
