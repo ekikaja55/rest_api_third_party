@@ -12,8 +12,6 @@ const { contohRouter } = require("./src/routes");
 app.use("/api/v1/contoh", contohRouter);
 
 
-
-
 // dibawah ini adalah code untuk nembak third party service Yugioh API
 
 //nomor 2
