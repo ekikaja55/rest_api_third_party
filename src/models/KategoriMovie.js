@@ -4,7 +4,7 @@ const { Schema, default: mongoose } = require("mongoose");
 
 //step 1: buat skema jelaskan collection ini punya kolom apa aja
 
-const kategoriMovieSchema = new Schema(
+const KategoriMovieSchema = new Schema(
   {
     _id: Number,
     nama: String,
@@ -23,7 +23,7 @@ const kategoriMovieSchema = new Schema(
 
 const KategoriMovie = mongoose.model(
   "kategori_movie",
-  kategoriMovieSchema,
+  KategoriMovieSchema,
   "kategori_movie"
 );
 
