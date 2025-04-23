@@ -3,8 +3,18 @@ const express = require("express");
 const app = express();
 const port = 3000;
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.get("/", (req, res) => res.send("Hello World!"));
 app.listen(port, () => console.log(`Example app listening on port ${port}!`));
+
+const { contohRouter } = require("./src/routes");
+app.use("/api/v1/contoh", contohRouter);
+
+
+
+
+// dibawah ini adalah code untuk nembak third party service Yugioh API
 
 //nomor 2
 app.get("/api/card", async (req, res) => {
