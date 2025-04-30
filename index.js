@@ -11,7 +11,6 @@ app.listen(port, () => console.log(`Example app listening on port ${port}!`));
 const { contohRouter } = require("./src/routes");
 app.use("/api/v1/contoh", contohRouter);
 
-
 // dibawah ini adalah code untuk nembak third party service Yugioh API
 
 //nomor 2
@@ -65,7 +64,7 @@ app.get("/api/:index", async (req, res) => {
   }
 });
 
-//nomor 3
+//nomor 3 halo
 app.get("/api/harga/:id", async (req, res) => {
   const { id } = req.params;
   try {
